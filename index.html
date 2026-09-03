@@ -11,7 +11,54 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <main id="main-content"></main>
+  <main id="main-content">
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <span class="site-header__brand">Giselle Guimarães</span>
+        <a
+          class="btn btn--lime"
+          data-testid="whatsapp-cta-header"
+          data-whatsapp-cta
+          data-location="header"
+          target="_blank"
+          rel="noopener"
+          href="https://wa.me/5521984743764?text=Ol%C3%A1%20Giselle!%20Vim%20pela%20p%C3%A1gina%20de%20Quiropraxia%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o."
+        >Agendar no WhatsApp</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <h1>Dor lombar, cervical ou ciática atrapalhando seu dia a dia?</h1>
+          <p class="hero__subheadline">
+            Cuide da sua coluna com quiropraxia especializada, em um atendimento que une
+            técnica e acolhimento — na Barra da Tijuca.
+          </p>
+          <a
+            class="btn btn--lime btn--large"
+            data-testid="whatsapp-cta-hero"
+            data-whatsapp-cta
+            data-location="hero"
+            target="_blank"
+            rel="noopener"
+            href="https://wa.me/5521984743764?text=Ol%C3%A1%20Giselle!%20Vim%20pela%20p%C3%A1gina%20de%20Quiropraxia%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o."
+          >Agendar avaliação no WhatsApp</a>
+        </div>
+        <picture>
+          <source srcset="img/hero-giselle.webp" type="image/webp">
+          <img
+            data-testid="hero-photo"
+            class="hero__photo"
+            src="img/hero-giselle.jpg"
+            alt="Giselle Guimarães, fisioterapeuta especialista em quiropraxia, em seu consultório"
+            width="854"
+            height="1280"
+          >
+        </picture>
+      </div>
+    </section>
+  </main>
   <script src="js/main.js" defer></script>
 </body>
 </html>
