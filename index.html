@@ -12,11 +12,12 @@
   <!-- End Google Tag Manager -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
   <title>Quiropraxia com Giselle Guimarães | Barra da Tijuca, RJ</title>
   <meta name="description" content="Alívio para dor lombar, cervical, ciática e postural com quiropraxia especializada. Atendimento humanizado na Barra da Tijuca. Agende pelo WhatsApp.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -27,7 +28,7 @@
   <main id="main-content">
     <header class="site-header">
       <div class="container site-header__inner">
-        <span class="site-header__brand">Giselle Guimarães</span>
+        <img class="site-header__logo" src="img/logo-giselle.webp" alt="Giselle Guimarães — Fisioterapia e Quiropraxia">
         <a
           class="btn btn--lime btn--compact"
           data-testid="whatsapp-cta-header"
@@ -36,22 +37,30 @@
           target="_blank"
           rel="noopener"
           href="https://wa.me/5521984743764?text=Ol%C3%A1%20Giselle!%20Vim%20pela%20p%C3%A1gina%20de%20Quiropraxia%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o."
-        >Agendar no WhatsApp</a>
+        >Falar com a Giselle</a>
       </div>
     </header>
 
     <section class="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
       <svg class="hero__spine" viewBox="0 0 400 800" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="spineGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#E3C077"/>
+            <stop offset="100%" stop-color="#8B4A54"/>
+          </linearGradient>
+        </defs>
         <path d="M340 0 C 260 120, 300 220, 230 320 S 100 480, 170 600 S 320 760, 260 800"
-          fill="none" stroke="#C7F464" stroke-width="2" stroke-dasharray="1 13" stroke-linecap="round" />
+          fill="none" stroke="url(#spineGradient)" stroke-width="1.5" stroke-dasharray="1 13" stroke-linecap="round" />
       </svg>
       <div class="container hero__inner">
         <div class="hero__copy">
-          <p class="eyebrow eyebrow--on-dark">Quiropraxia · Barra da Tijuca</p>
-          <h1 class="hero__headline">Dor lombar, cervical ou ciática atrapalhando seu dia a dia?</h1>
+          <p class="eyebrow">Quiropraxia especializada · Barra da Tijuca</p>
+          <h1 class="hero__headline">Dor lombar, cervical ou <span class="accent gradient-text">ciática</span> atrapalhando seu dia a dia?</h1>
           <p class="hero__subheadline">
-            Cuide da sua coluna com quiropraxia especializada, em um atendimento que une
-            técnica e acolhimento — na Barra da Tijuca.
+            Comece com uma avaliação individual e saia com um plano de cuidado feito pra sua
+            rotina — não um protocolo genérico. Atendimento acolhedor, sem pressa, a poucos
+            minutos de você na Barra da Tijuca.
           </p>
           <div class="hero__actions">
             <a
@@ -62,7 +71,7 @@
               target="_blank"
               rel="noopener"
               href="https://wa.me/5521984743764?text=Ol%C3%A1%20Giselle!%20Vim%20pela%20p%C3%A1gina%20de%20Quiropraxia%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o."
-            >Agendar avaliação no WhatsApp</a>
+            >Quero minha avaliação</a>
           </div>
         </div>
         <div class="hero__photo-wrap">
@@ -85,9 +94,9 @@
 
     <section class="trust-bar" data-testid="trust-bar">
       <div class="container trust-bar__inner">
-        <span>Fisioterapeuta — Universidade Veiga de Almeida</span>
-        <span>Especialista em Quiropraxia</span>
-        <span>Atendimento no O2 Corporate &amp; Offices</span>
+        <span class="glass">Fisioterapeuta — Universidade Veiga de Almeida</span>
+        <span class="glass">Especialista em Quiropraxia</span>
+        <span class="glass">Atendimento no O2 Corporate &amp; Offices</span>
       </div>
     </section>
 
@@ -95,8 +104,9 @@
       <div class="container">
         <p class="eyebrow">Sinais comuns</p>
         <h2>Você sente isso?</h2>
+        <p class="symptoms__lede">Se pelo menos um desses sinais te soa familiar, o primeiro passo pra resolver é mais simples — e mais perto — do que parece.</p>
         <div class="symptoms__grid">
-          <div class="symptom-card reveal" data-testid="symptom-item">
+          <div class="symptom-card glass" data-testid="symptom-item">
             <svg class="symptom-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
               <line x1="12" y1="2" x2="12" y2="22"/>
               <ellipse cx="12" cy="5" rx="4" ry="1.6"/>
@@ -105,33 +115,33 @@
               <ellipse cx="12" cy="18.5" rx="4" ry="1.6"/>
             </svg>
             <h3>Dor lombar / coluna</h3>
-            <p>Aquela dor que trava as costas e dificulta até levantar da cama.</p>
+            <p>Aquela dor que trava as costas e dificulta até levantar da cama — e só tende a piorar se você continuar adiando.</p>
           </div>
-          <div class="symptom-card reveal" data-testid="symptom-item">
+          <div class="symptom-card glass" data-testid="symptom-item">
             <svg class="symptom-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="12" cy="5.5" r="3"/>
               <path d="M8 20c0-4 1.5-7 4-7s4 3 4 7"/>
               <path d="M8.8 9.3l1.4 1.4M15.2 9.3l-1.4 1.4"/>
             </svg>
             <h3>Dor cervical / torcicolo</h3>
-            <p>Tensão no pescoço que vira dor de cabeça e incomoda o dia inteiro.</p>
+            <p>Tensão no pescoço que vira dor de cabeça, atrapalha a concentração e some com sua paciência no fim do dia.</p>
           </div>
-          <div class="symptom-card reveal" data-testid="symptom-item">
+          <div class="symptom-card glass" data-testid="symptom-item">
             <svg class="symptom-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
               <path d="M10 3c-1 5 0 7-1 10s-2 4-1 8"/>
               <path d="M14 3c1 3-1 5 0 7s2 3 1 6-1 3 0 5" stroke-dasharray="2.2 2.2"/>
             </svg>
             <h3>Dor ciática / irradiada</h3>
-            <p>Dor que sai da lombar e desce pela perna, incomodando ao sentar ou caminhar.</p>
+            <p>Dor que desce da lombar até a perna, incomodando pra sentar, caminhar ou até dormir direito.</p>
           </div>
-          <div class="symptom-card reveal" data-testid="symptom-item">
+          <div class="symptom-card glass" data-testid="symptom-item">
             <svg class="symptom-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <rect x="4" y="13.5" width="16" height="2" rx="1"/>
               <path d="M7 13.5V8a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v5.5"/>
               <path d="M9 19.5l-1.2 2M15 19.5l1.2 2"/>
             </svg>
             <h3>Postura e home office</h3>
-            <p>Horas sentado(a) cobrando um preço: ombros tensos, coluna desalinhada, cansaço constante.</p>
+            <p>Horas sentado(a) cobrando um preço alto: ombros tensos, coluna desalinhada e um cansaço que nem uma boa noite de sono resolve.</p>
           </div>
         </div>
       </div>
@@ -140,7 +150,7 @@
     <section class="metodo">
       <div class="container metodo__inner">
         <div class="metodo__photo-wrap">
-          <div class="media-frame media-frame--portrait reveal">
+          <div class="media-frame media-frame--portrait">
             <picture>
               <source srcset="img/metodo-giselle.webp" type="image/webp">
               <img
@@ -148,26 +158,25 @@
                 alt="Giselle Guimarães explicando um ajuste quiroprático em um modelo de coluna"
                 width="854"
                 height="1280"
-                loading="lazy"
               >
             </picture>
           </div>
         </div>
         <div>
           <p class="eyebrow">O método</p>
-          <h2>Como funciona a quiropraxia</h2>
+          <h2>Como funciona a quiropraxia com a Giselle</h2>
           <ol class="metodo__steps">
             <li data-testid="metodo-step">
               <h3>Avaliação</h3>
-              <p>Giselle analisa sua postura, histórico e queixas para entender a origem da dor.</p>
+              <p>Giselle ouve sua história, examina sua postura e identifica exatamente de onde vem a dor — antes de qualquer ajuste.</p>
             </li>
             <li data-testid="metodo-step">
               <h3>Plano de tratamento</h3>
-              <p>Um plano de ajustes pensado para o seu corpo e sua rotina, não um protocolo genérico.</p>
+              <p>Você recebe um plano pensado pro seu corpo, sua rotina e seus objetivos. Nada de fórmula genérica copiada de outro paciente.</p>
             </li>
             <li data-testid="metodo-step">
               <h3>Ajustes e acompanhamento</h3>
-              <p>Sessões de quiropraxia com acompanhamento da evolução a cada etapa.</p>
+              <p>Sessões de quiropraxia com acompanhamento de perto, ajustando o plano conforme você evolui — até você sentir a diferença no dia a dia.</p>
             </li>
           </ol>
         </div>
@@ -179,16 +188,16 @@
         <p class="eyebrow">Por que a Giselle</p>
         <h2>Diferenciais</h2>
         <ul class="diferenciais__list">
-          <li data-testid="diferencial-item">Ambiente moderno e seguro no O2 Corporate &amp; Offices, na Barra da Tijuca.</li>
-          <li data-testid="diferencial-item">Atendimento individualizado — sem pressa, sem protocolo padronizado.</li>
-          <li data-testid="diferencial-item">Uma abordagem que une técnica e acolhimento em cada sessão.</li>
+          <li class="glass" data-testid="diferencial-item">Ambiente moderno, seguro e discreto no O2 Corporate &amp; Offices, na Barra da Tijuca — sem cara de consultório de hospital.</li>
+          <li class="glass" data-testid="diferencial-item">Atendimento 100% individual: sua sessão é sobre você, sem pressa e sem fila de espera.</li>
+          <li class="glass" data-testid="diferencial-item">Uma abordagem que une técnica apurada e acolhimento de verdade em cada sessão.</li>
         </ul>
       </div>
     </section>
 
     <section class="sobre" data-testid="sobre-section">
       <div class="container sobre__inner">
-        <div class="media-frame media-frame--landscape reveal">
+        <div class="media-frame media-frame--landscape">
           <picture>
             <source srcset="img/sobre-giselle.webp" type="image/webp">
             <img
@@ -196,7 +205,6 @@
               alt="Giselle Guimarães trabalhando em seu consultório na Barra da Tijuca"
               width="1280"
               height="854"
-              loading="lazy"
             >
           </picture>
         </div>
@@ -209,6 +217,7 @@
             combina rigor técnico e um cuidado próximo com cada paciente — "movimento com
             técnica e acolhimento", como ela mesma resume seu trabalho.
           </p>
+          <blockquote class="glass">Você não é só mais um paciente na agenda — é alguém com uma dor específica, que merece um cuidado específico.</blockquote>
         </div>
       </div>
     </section>
@@ -226,7 +235,7 @@
         <p class="eyebrow">Dúvidas comuns</p>
         <h2>Perguntas frequentes</h2>
         <div class="faq__list">
-          <div class="faq__item">
+          <div class="faq__item glass">
             <button class="faq__question" data-testid="faq-question" aria-expanded="false" aria-controls="faq-answer-0">
               <span>Dói o ajuste quiroprático?</span>
               <svg class="faq__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
@@ -236,23 +245,26 @@
               limite. Cada pessoa reage de um jeito, e a Giselle ajusta a abordagem conforme sua resposta ao tratamento.
             </p>
           </div>
-          <div class="faq__item">
+          <div class="faq__item glass">
             <button class="faq__question" data-testid="faq-question" aria-expanded="false" aria-controls="faq-answer-1">
               <span>Quantas sessões eu preciso?</span>
               <svg class="faq__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <p class="faq__answer" id="faq-answer-1" data-testid="faq-answer-1" hidden>
-              Varia de pessoa para pessoa. Depois da avaliação inicial, Giselle monta um plano
-              com a frequência ideal para o seu caso.
+              Varia de pessoa para pessoa — depende da origem da dor e de como seu corpo
+              responde ao tratamento. Depois da avaliação inicial, Giselle monta com você um
+              plano com a frequência ideal, sem enrolação.
             </p>
           </div>
-          <div class="faq__item">
+          <div class="faq__item glass">
             <button class="faq__question" data-testid="faq-question" aria-expanded="false" aria-controls="faq-answer-2">
               <span>A Giselle atende convênio?</span>
               <svg class="faq__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <p class="faq__answer" id="faq-answer-2" data-testid="faq-answer-2" hidden>
-              O atendimento é particular. Fale pelo WhatsApp para saber mais sobre como funciona.
+              O atendimento é particular, o que permite sessões mais longas e um cuidado
+              realmente individual — sem a pressa que os convênios costumam impor. Fale pelo
+              WhatsApp para saber mais sobre como funciona.
             </p>
           </div>
         </div>
@@ -277,7 +289,8 @@
 
     <section class="cta-final">
       <div class="container">
-        <h2>Pronto(a) para cuidar da sua coluna?</h2>
+        <h2>Sua coluna não precisa esperar mais um dia</h2>
+        <p class="cta-final__sub">Fale agora com a Giselle e agende sua avaliação — direto pelo WhatsApp, sem burocracia.</p>
         <a
           class="btn btn--lime btn--large"
           data-testid="whatsapp-cta-final"
@@ -286,7 +299,7 @@
           target="_blank"
           rel="noopener"
           href="https://wa.me/5521984743764?text=Ol%C3%A1%20Giselle!%20Vim%20pela%20p%C3%A1gina%20de%20Quiropraxia%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o."
-        >Agendar avaliação no WhatsApp</a>
+        >Quero agendar minha avaliação</a>
       </div>
     </section>
 

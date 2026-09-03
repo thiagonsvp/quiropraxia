@@ -26,7 +26,7 @@ function renderTestimonials(items) {
   grid.innerHTML = '';
   for (const item of items) {
     const card = document.createElement('blockquote');
-    card.className = 'testimonial-card';
+    card.className = 'testimonial-card glass';
     card.innerHTML = `<p>&ldquo;${item.quote}&rdquo;</p><cite>${item.name}</cite>`;
     grid.appendChild(card);
   }
