@@ -8,3 +8,28 @@ document.addEventListener('click', (event) => {
     click_location: cta.dataset.location,
   });
 });
+
+const testimonials = [];
+window.__testimonials = testimonials;
+
+function renderTestimonials(items) {
+  const section = document.querySelector('[data-testid="testimonials-section"]');
+  const grid = document.getElementById('testimonials-grid');
+  if (!section || !grid) return;
+
+  if (items.length === 0) {
+    section.hidden = true;
+    return;
+  }
+
+  section.hidden = false;
+  grid.innerHTML = '';
+  for (const item of items) {
+    const card = document.createElement('blockquote');
+    card.className = 'testimonial-card';
+    card.innerHTML = `<p>&ldquo;${item.quote}&rdquo;</p><cite>${item.name}</cite>`;
+    grid.appendChild(card);
+  }
+}
+
+renderTestimonials(testimonials);

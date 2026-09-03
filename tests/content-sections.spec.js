@@ -34,3 +34,10 @@ test('diferenciais section lists the three key differentiators', async ({ page }
   await expect(items.nth(0)).toContainText('O2 Corporate');
   await expect(items.nth(2)).toContainText('acolhimento');
 });
+
+test('"sobre" section introduces Giselle', async ({ page }) => {
+  await page.goto('/');
+  const sobre = page.getByTestId('sobre-section');
+  await expect(sobre).toContainText('Universidade Veiga de Almeida');
+  await expect(sobre.getByRole('img')).toBeVisible();
+});
