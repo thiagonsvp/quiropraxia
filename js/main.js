@@ -42,3 +42,16 @@ document.querySelectorAll('.faq__question').forEach((button) => {
     answer.hidden = expanded;
   });
 });
+
+const floatingCta = document.querySelector('[data-testid="whatsapp-cta-floating"]');
+const heroSection = document.querySelector('.hero');
+
+if (floatingCta && heroSection) {
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      floatingCta.hidden = entry.isIntersecting;
+    },
+    { threshold: 0 }
+  );
+  observer.observe(heroSection);
+}

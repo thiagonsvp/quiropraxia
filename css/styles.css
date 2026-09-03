@@ -285,3 +285,56 @@ a {
 .faq__answer {
   margin: 12px 0 0;
 }
+
+.localizacao {
+  padding: 56px 0;
+}
+
+.localizacao iframe {
+  margin-top: 20px;
+  border-radius: 12px;
+}
+
+.cta-final {
+  padding: 56px 0;
+  background: var(--color-navy);
+  color: var(--color-white);
+  text-align: center;
+}
+
+.site-footer {
+  padding: 32px 0;
+  background: var(--color-navy-dark);
+  color: var(--color-white);
+  font-size: 0.9rem;
+}
+
+.site-footer a {
+  color: var(--color-lime);
+}
+
+.site-footer__lgpd {
+  opacity: 0.75;
+  margin-top: 12px;
+}
+
+.whatsapp-floating {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 20;
+  background: var(--color-lime);
+  color: var(--color-navy-dark);
+  padding: 14px 18px;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 900px) {
+  .whatsapp-floating {
+    display: none;
+  }
+}
