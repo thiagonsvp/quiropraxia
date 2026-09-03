@@ -165,3 +165,47 @@ a {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.metodo {
+  padding: 56px 0;
+  background: var(--color-gray-100);
+}
+
+.metodo__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.metodo__photo {
+  border-radius: 12px;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.metodo__steps {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0;
+  display: grid;
+  gap: 20px;
+}
+
+.diferenciais {
+  padding: 56px 0;
+}
+
+.diferenciais__list {
+  margin-top: 24px;
+  padding-left: 20px;
+  display: grid;
+  gap: 16px;
+  font-size: 1.05rem;
+}
+
+@media (min-width: 900px) {
+  .metodo__inner {
+    grid-template-columns: 320px 1fr;
+  }
+}
