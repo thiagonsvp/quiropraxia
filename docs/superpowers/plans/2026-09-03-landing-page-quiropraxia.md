@@ -382,29 +382,30 @@ git commit -m "feat: add optimized WebP/JPEG image pairs for hero, method, and a
 - Modify: `index.html`
 - Modify: `css/styles.css`
 - Modify: `js/main.js`
+- Create: `tests/utils/whatsapp.js`
 - Create: `tests/whatsapp-tracking.spec.js`
 
 **Interfaces:**
 - Consumes: design tokens from Task 1 (`--color-navy`, `--color-lime`, etc.), `img/hero-giselle.webp`/`.jpg` from Task 2.
-- Produces: the WhatsApp-tracking contract every later CTA must follow — any element with `data-whatsapp-cta` and `data-location="<location>"` automatically gets its click pushed to `window.dataLayer` as `{ event: 'whatsapp_click', click_location: '<location>' }`. Test-id convention: `whatsapp-cta-<location>` (e.g. `whatsapp-cta-hero`). The delegated click handler lives in `js/main.js` and requires no changes when later tasks add more CTAs — they just need the two `data-*` attributes.
+- Produces: the WhatsApp-tracking contract every later CTA must follow — any element with `data-whatsapp-cta` and `data-location="<location>"` automatically gets its click pushed to `window.dataLayer` as `{ event: 'whatsapp_click', click_location: '<location>' }`. Test-id convention: `whatsapp-cta-<location>` (e.g. `whatsapp-cta-hero`). The delegated click handler lives in `js/main.js` and requires no changes when later tasks add more CTAs — they just need the two `data-*` attributes. Also produces the shared test helper `tests/utils/whatsapp.js`, exporting `EXPECTED_TEXT`, `assertWhatsAppHref(href)`, and `clickAndCapture(page, context, testId)` — **Task 8's final-CTA test must import this helper instead of redefining it.**
 
-- [ ] **Step 1: Write the failing header + hero test**
+- [ ] **Step 1: Write the shared WhatsApp test helper**
 
-Create `tests/whatsapp-tracking.spec.js`:
+Create `tests/utils/whatsapp.js`:
 
 ```js
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 
-const EXPECTED_TEXT = 'Olá Giselle! Vim pela página de Quiropraxia e gostaria de agendar uma avaliação.';
+export const EXPECTED_TEXT = 'Olá Giselle! Vim pela página de Quiropraxia e gostaria de agendar uma avaliação.';
 
-function assertWhatsAppHref(href) {
+export function assertWhatsAppHref(href) {
   const url = new URL(href);
   expect(url.hostname).toBe('wa.me');
   expect(url.pathname).toBe('/5521984743764');
   expect(url.searchParams.get('text')).toBe(EXPECTED_TEXT);
 }
 
-async function clickAndCapture(page, context, testId) {
+export async function clickAndCapture(page, context, testId) {
   const cta = page.getByTestId(testId);
   await expect(cta).toBeVisible();
   const href = await cta.getAttribute('href');
@@ -418,6 +419,15 @@ async function clickAndCapture(page, context, testId) {
 
   return page.evaluate(() => window.dataLayer);
 }
+```
+
+- [ ] **Step 2: Write the failing header + hero test**
+
+Create `tests/whatsapp-tracking.spec.js`:
+
+```js
+import { test, expect } from '@playwright/test';
+import { clickAndCapture } from './utils/whatsapp.js';
 
 test('header WhatsApp CTA is correct and tracked', async ({ page, context }) => {
   await page.goto('/');
@@ -438,12 +448,12 @@ test('hero section shows headline and photo', async ({ page }) => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [ ] **Step 3: Run test to verify it fails**
 
 Run: `npx playwright test tests/whatsapp-tracking.spec.js`
 Expected: FAIL — no header/hero markup exists yet.
 
-- [ ] **Step 3: Implement the delegated tracking handler**
+- [ ] **Step 4: Implement the delegated tracking handler**
 
 Replace the contents of `js/main.js`:
 
@@ -460,7 +470,7 @@ document.addEventListener('click', (event) => {
 });
 ```
 
-- [ ] **Step 4: Implement the header + hero markup**
+- [ ] **Step 5: Implement the header + hero markup**
 
 Inside `index.html`, replace `<main id="main-content"></main>` with:
 
@@ -515,7 +525,7 @@ Inside `index.html`, replace `<main id="main-content"></main>` with:
 </main>
 ```
 
-- [ ] **Step 5: Add header/hero styles**
+- [ ] **Step 6: Add header/hero styles**
 
 Append to `css/styles.css`:
 
@@ -601,15 +611,15 @@ Append to `css/styles.css`:
 }
 ```
 
-- [ ] **Step 6: Run test to verify it passes**
+- [ ] **Step 7: Run test to verify it passes**
 
 Run: `npx playwright test tests/whatsapp-tracking.spec.js tests/scaffold.spec.js`
 Expected: PASS (4 passed).
 
-- [ ] **Step 7: Commit**
+- [ ] **Step 8: Commit**
 
 ```bash
-git add index.html css/styles.css js/main.js tests/whatsapp-tracking.spec.js
+git add index.html css/styles.css js/main.js tests/utils/whatsapp.js tests/whatsapp-tracking.spec.js
 git commit -m "feat: add header and hero with WhatsApp click tracking"
 ```
 
@@ -1250,7 +1260,7 @@ git commit -m "feat: add FAQ accordion section"
 - Create: `tests/footer-and-floating-cta.spec.js`
 
 **Interfaces:**
-- Consumes: the `[data-whatsapp-cta]` tracking contract from Task 3 (the final CTA and floating button need no new JS — they inherit tracking automatically by using the same `data-whatsapp-cta`/`data-location` attributes).
+- Consumes: the `[data-whatsapp-cta]` tracking contract from Task 3 (the final CTA and floating button need no new JS — they inherit tracking automatically by using the same `data-whatsapp-cta`/`data-location` attributes), and the shared test helper `tests/utils/whatsapp.js` (`clickAndCapture`) from Task 3 — **do not redefine this logic inline.**
 - Produces: `data-testid="localizacao-section"`, `data-testid="site-footer"`, `data-testid="whatsapp-cta-final"`, `data-testid="whatsapp-cta-floating"`.
 
 - [ ] **Step 1: Write the failing tests**
@@ -1259,27 +1269,11 @@ Create `tests/footer-and-floating-cta.spec.js`:
 
 ```js
 import { test, expect } from '@playwright/test';
-
-const EXPECTED_TEXT = 'Olá Giselle! Vim pela página de Quiropraxia e gostaria de agendar uma avaliação.';
+import { clickAndCapture } from './utils/whatsapp.js';
 
 test('final CTA WhatsApp button is correct and tracked', async ({ page, context }) => {
   await page.goto('/');
-  const cta = page.getByTestId('whatsapp-cta-final');
-  await expect(cta).toBeVisible();
-
-  const href = await cta.getAttribute('href');
-  const url = new URL(href);
-  expect(url.hostname).toBe('wa.me');
-  expect(url.pathname).toBe('/5521984743764');
-  expect(url.searchParams.get('text')).toBe(EXPECTED_TEXT);
-
-  const [popup] = await Promise.all([
-    context.waitForEvent('page'),
-    cta.click(),
-  ]);
-  await popup.close();
-
-  const dataLayer = await page.evaluate(() => window.dataLayer);
+  const dataLayer = await clickAndCapture(page, context, 'whatsapp-cta-final');
   expect(dataLayer).toContainEqual({ event: 'whatsapp_click', click_location: 'final_cta' });
 });
 
