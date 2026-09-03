@@ -253,3 +253,35 @@ a {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+.faq {
+  padding: 56px 0;
+}
+
+.faq__list {
+  margin-top: 24px;
+  display: grid;
+  gap: 12px;
+}
+
+.faq__item {
+  border: 1px solid var(--color-gray-100);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.faq__question {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.faq__answer {
+  margin: 12px 0 0;
+}

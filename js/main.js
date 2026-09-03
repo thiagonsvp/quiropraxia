@@ -33,3 +33,12 @@ function renderTestimonials(items) {
 }
 
 renderTestimonials(testimonials);
+
+document.querySelectorAll('.faq__question').forEach((button) => {
+  button.addEventListener('click', () => {
+    const expanded = button.getAttribute('aria-expanded') === 'true';
+    const answer = document.getElementById(button.getAttribute('aria-controls'));
+    button.setAttribute('aria-expanded', String(!expanded));
+    answer.hidden = expanded;
+  });
+});
