@@ -97,6 +97,23 @@ button {
   border-radius: 4px;
 }
 
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 12px 20px;
+  background: var(--gold-400);
+  color: #16161d;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0 0 var(--radius-md) 0;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
 .container {
   max-width: var(--container-max);
   margin: 0 auto;
@@ -292,6 +309,12 @@ button {
 
 .hero__actions {
   margin-top: 12px;
+}
+
+.hero__note {
+  margin: 12px 0 0;
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
 }
 
 .hero__photo-wrap {
@@ -603,6 +626,32 @@ button {
   margin: 0;
 }
 
+.testimonial-card cite {
+  display: block;
+  margin-top: 14px;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.testimonial-card__source {
+  display: block;
+  margin-top: 2px;
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+}
+
+.testimonials__rating {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.testimonials__rating a {
+  color: var(--gold-400);
+  font-weight: 600;
+}
+
 @media (min-width: 900px) {
   .testimonials__grid {
     grid-template-columns: repeat(3, 1fr);
@@ -728,6 +777,12 @@ button {
   color: var(--text-tertiary);
   font-size: 0.9rem;
   border-top: 1px solid var(--glass-border);
+}
+
+.site-footer__nap {
+  margin: 0 0 14px;
+  max-width: 68ch;
+  color: var(--text-tertiary);
 }
 
 .site-footer__links {

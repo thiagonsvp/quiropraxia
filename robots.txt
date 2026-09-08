@@ -1,0 +1,21 @@
+# Landing page dedicada à campanha de Google Ads.
+#
+# A página fica FORA do índice orgânico, mas isso é feito pela meta tag
+# "noindex" no HTML — nunca por Disallow aqui. Um Disallow impediria o Google
+# de rastrear a página e, portanto, de ler o noindex: o resultado seria a URL
+# podendo permanecer indexada, exatamente o oposto do pretendido.
+#
+# Conclusão: manter o rastreio liberado é intencional.
+
+User-agent: *
+Allow: /
+
+# O AdsBot avalia a experiência da landing page (Quality Score) e a
+# conformidade com as políticas. Sem acesso, o anúncio pode ser reprovado.
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+
+# Sem diretiva Sitemap: não há URL indexável neste host.

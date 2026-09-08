@@ -9,7 +9,26 @@ document.addEventListener('click', (event) => {
   });
 });
 
-const testimonials = [];
+// Avaliações públicas do perfil da Giselle no Google (5,0 · 5 avaliações).
+// Texto reproduzido como aparece no perfil. Ao trocar por depoimentos coletados
+// direto com pacientes, ajuste também o campo `source`.
+const testimonials = [
+  {
+    quote: 'Profissional comprometida com o bem estar do paciente.',
+    name: 'Suely Teixeira',
+    source: 'Avaliação no Google',
+  },
+  {
+    quote: 'Profissionalismo e atendimento excelente!',
+    name: 'Marco Antônio',
+    source: 'Avaliação no Google',
+  },
+  {
+    quote: 'Sou muito grato pelo cuidado e recomendo de olhos fechados!',
+    name: 'Pedro Dias',
+    source: 'Avaliação no Google',
+  },
+];
 window.__testimonials = testimonials;
 
 function renderTestimonials(items) {
@@ -27,7 +46,20 @@ function renderTestimonials(items) {
   for (const item of items) {
     const card = document.createElement('blockquote');
     card.className = 'testimonial-card glass';
-    card.innerHTML = `<p>&ldquo;${item.quote}&rdquo;</p><cite>${item.name}</cite>`;
+    card.dataset.testid = 'testimonial-card';
+
+    const quote = document.createElement('p');
+    quote.textContent = `“${item.quote}”`;
+
+    const cite = document.createElement('cite');
+    cite.textContent = item.name;
+
+    const source = document.createElement('span');
+    source.className = 'testimonial-card__source';
+    source.textContent = item.source;
+    cite.appendChild(source);
+
+    card.append(quote, cite);
     grid.appendChild(card);
   }
 }

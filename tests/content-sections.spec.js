@@ -4,7 +4,7 @@ test('trust bar shows confirmed credentials', async ({ page }) => {
   await page.goto('/');
   const trustBar = page.getByTestId('trust-bar');
   await expect(trustBar).toContainText('Universidade Veiga de Almeida');
-  await expect(trustBar).toContainText('Especialista em Quiropraxia');
+  await expect(trustBar).toContainText('Pós-graduada em Quiropraxia');
   await expect(trustBar).toContainText('O2 Corporate');
 });
 
@@ -27,12 +27,18 @@ test('"como funciona" explains the 3-step method', async ({ page }) => {
   await expect(steps.nth(2)).toContainText('Ajustes');
 });
 
-test('diferenciais section lists the three key differentiators', async ({ page }) => {
+test('diferenciais section lists the four key differentiators', async ({ page }) => {
   await page.goto('/');
   const items = page.getByTestId('diferencial-item');
-  await expect(items).toHaveCount(3);
+  await expect(items).toHaveCount(4);
   await expect(items.nth(0)).toContainText('O2 Corporate');
   await expect(items.nth(2)).toContainText('acolhimento');
+  await expect(items.nth(3)).toContainText('fora do expediente comercial');
+});
+
+test('trust bar shows the CREFITO registration number', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByTestId('trust-bar')).toContainText('CREFITO 207830-F');
 });
 
 test('"sobre" section introduces Giselle', async ({ page }) => {

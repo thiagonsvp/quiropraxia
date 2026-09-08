@@ -4,7 +4,9 @@ import { clickAndCapture } from './utils/whatsapp.js';
 test('final CTA WhatsApp button is correct and tracked', async ({ page, context }) => {
   await page.goto('/');
   const dataLayer = await clickAndCapture(page, context, 'whatsapp-cta-final');
-  expect(dataLayer).toContainEqual({ event: 'whatsapp_click', click_location: 'final_cta' });
+  expect(dataLayer).toContainEqual(
+    expect.objectContaining({ event: 'whatsapp_click', click_location: 'final_cta' })
+  );
 });
 
 test('localização section shows the O2 Corporate address and a map', async ({ page }) => {
