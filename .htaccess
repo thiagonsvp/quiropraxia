@@ -1,0 +1,99 @@
+# Landing page de Quiropraxia — configuração de servidor (Apache/LiteSpeed, Hostinger)
+#
+# Todo bloco está dentro de <IfModule>. Se o módulo não existir no servidor, a
+# diretiva é ignorada em vez de derrubar o site com erro 500.
+#
+# Para reverter qualquer coisa daqui: basta apagar este arquivo.
+
+# ----------------------------------------------------------------------------
+# 1. URL única
+# ----------------------------------------------------------------------------
+# Na Hostinger o subdomínio aponta para uma pasta dentro do public_html, e essa
+# pasta continua acessível pelo domínio principal. Resultado: a mesma página
+# respondia tanto em quiropraxia.giselleguimaraes.com.br quanto em
+# giselleguimaraes.com.br/quiropraxia/.
+#
+# A condição de HTTP_HOST é essencial: sem ela, o subdomínio redirecionaria
+# para si mesmo em loop infinito.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteCond %{HTTP_HOST} ^(www\.)?giselleguimaraes\.com\.br$ [NC]
+  RewriteRule ^(.*)$ https://quiropraxia.giselleguimaraes.com.br/$1 [R=301,L]
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# 2. Cabeçalhos de segurança
+# ----------------------------------------------------------------------------
+
+<IfModule mod_headers.c>
+  # HSTS: exige HTTPS nas próximas visitas. Sem includeSubDomains e sem preload
+  # de propósito, para não impor política ao domínio principal (o WordPress).
+  Header always set Strict-Transport-Security "max-age=31536000"
+
+  # Impede o navegador de "adivinhar" o tipo do arquivo.
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Impede que terceiros embutam esta página em um iframe (clickjacking).
+  # Não afeta o mapa do Google: ali nós somos a página de fora, não a de dentro.
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # Não vaza a URL completa desta página para sites externos.
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # A página não usa câmera, microfone nem geolocalização.
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# 3. Cache
+# ----------------------------------------------------------------------------
+# Os arquivos não têm hash no nome (styles.css é sempre styles.css), então
+# cache longo em CSS/JS faria visitantes antigos verem a versão velha depois de
+# um deploy. Por isso: imagens e fontes com cache longo, CSS/JS curto, e o HTML
+# sempre revalidado — é ele que carrega o GTM e o conteúdo que muda.
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  ExpiresByType image/webp                "access plus 1 year"
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 year"
+  ExpiresByType font/woff2                "access plus 1 year"
+
+  ExpiresByType text/css                  "access plus 1 hour"
+  ExpiresByType application/javascript    "access plus 1 hour"
+
+  ExpiresByType text/html                 "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# 4. Compressão
+# ----------------------------------------------------------------------------
+# Imagens (webp/jpg) já são comprimidas: recomprimir só gasta CPU.
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# 5. Não servir arquivos de desenvolvimento
+# ----------------------------------------------------------------------------
+# O repositório é público e carrega testes, configs e o container do GTM.
+# Nada disso precisa ficar acessível pela web.
+
+<IfModule mod_authz_core.c>
+  <FilesMatch "^(package(-lock)?\.json|playwright\.config\.js|.*\.spec\.js|gtm-container-.*\.json)$">
+    Require all denied
+  </FilesMatch>
+</IfModule>
