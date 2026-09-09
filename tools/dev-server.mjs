@@ -16,8 +16,11 @@ const MIME = {
 };
 
 const server = http.createServer(async (req, res) => {
-  const urlPath = req.url === '/' ? '/index.html' : req.url.split('?')[0];
-  const filePath = join(ROOT, decodeURIComponent(urlPath));
+  // A query string sai ANTES de testar a raiz: "/?gclid=..." também é a home.
+  // Testar req.url === '/' primeiro fazia o servidor tentar ler o diretório
+  // como arquivo e devolver 404 em qualquer URL com parâmetros de campanha.
+  const urlPath = req.url.split('?')[0];
+  const filePath = join(ROOT, decodeURIComponent(urlPath === '/' ? '/index.html' : urlPath));
   try {
     const data = await readFile(filePath);
     res.writeHead(200, { 'Content-Type': MIME[extname(filePath)] || 'application/octet-stream' });
