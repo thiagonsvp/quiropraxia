@@ -64,7 +64,12 @@
   ExpiresByType font/woff2                "access plus 1 year"
 
   ExpiresByType text/css                  "access plus 1 hour"
+  # A Hostinger serve JS como application/x-javascript. Listar só o MIME moderno
+  # deixava o arquivo cair no padrão do servidor (7 dias), e um deploy levava
+  # uma semana para chegar em quem já tinha visitado o site.
   ExpiresByType application/javascript    "access plus 1 hour"
+  ExpiresByType application/x-javascript  "access plus 1 hour"
+  ExpiresByType text/javascript           "access plus 1 hour"
 
   ExpiresByType text/html                 "access plus 0 seconds"
 </IfModule>
@@ -82,8 +87,9 @@
 
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
-  AddOutputFilterByType DEFLATE application/javascript application/json
-  AddOutputFilterByType DEFLATE image/svg+xml
+  # Mesmo motivo do bloco de cache: aqui o JS chega como application/x-javascript.
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript text/javascript
+  AddOutputFilterByType DEFLATE application/json image/svg+xml
 </IfModule>
 
 # ----------------------------------------------------------------------------
