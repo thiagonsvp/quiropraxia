@@ -54,6 +54,34 @@ Vazio, nada é enviado e o site funciona igual. É o estado atual.
 
 ## Passo 3 — O que chega no webhook
 
+### Primeiro: converter o corpo em JSON
+
+O site envia o corpo declarado como `text/plain`, e isso é intencional.
+`application/json` não é um *simple content type*: o navegador exige um
+preflight CORS (`OPTIONS`) antes de enviar, o webhook do n8n não responde a ele,
+e a requisição morre com `net::ERR_FAILED` sem nunca chegar. Com `text/plain`
+não há preflight.
+
+O preço é que o n8n **não faz o parse sozinho**. O corpo chega como string:
+
+```json
+"body": "{\"ref\":\"P2U5F9\",\"gclid\":\"CORS_OK\", ...}"
+```
+
+Ou seja, `{{ $json.body.ref }}` retorna vazio. Logo após o nó **Webhook**,
+acrescente um nó **Code**:
+
+```js
+return [{ json: JSON.parse($input.first().json.body) }];
+```
+
+Depois desse nó os campos ficam acessíveis direto: `{{ $json.ref }}`,
+`{{ $json.gclid }}`, `{{ $json.utm_campaign }}`, `{{ $json.click_location }}`.
+
+Sem nó extra, também funciona na expressão: `{{ JSON.parse($json.body).ref }}`.
+
+### O conteúdo do corpo
+
 ```json
 {
   "ref": "A7K2M9",
