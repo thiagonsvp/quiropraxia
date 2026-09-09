@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { readFileSync } from 'node:fs';
 import { EXPECTED_TEXT, REF_SUFFIX } from './utils/whatsapp.js';
 
 const REF_IN_TEXT = /\(ref ([23456789ABCDEFGHJKLMNPQRSTUVWXYZ]{6})\)/;
@@ -121,4 +122,25 @@ test('no lead is sent to the webhook from a local environment', async ({ page, c
   await page.waitForTimeout(1500);
 
   expect(calls, `webhook chamado a partir do ambiente local: ${calls}`).toHaveLength(0);
+});
+
+// Guard-rail de código-fonte, não de comportamento: o envio real é bloqueado em
+// localhost, então não há como exercitá-lo aqui. Vale mesmo assim, porque esta
+// falha é silenciosa — o navegador chama sendBeacon normalmente e a requisição
+// morre depois, no CORS, sem erro visível em lugar nenhum.
+test('the webhook payload avoids content types that trigger a CORS preflight', () => {
+  const source = readFileSync('js/main.js', 'utf8');
+  const beacon = source.slice(
+    source.indexOf('function sendLeadToWebhook'),
+    source.indexOf('stampRefOnCtas();')
+  );
+
+  expect(beacon, 'sendLeadToWebhook não encontrado').toContain('sendBeacon');
+
+  // application/json exige preflight OPTIONS, que o n8n não responde.
+  expect(beacon).not.toContain("'application/json'");
+  expect(beacon).not.toContain('"application/json"');
+  expect(beacon).not.toMatch(/headers\s*:/);
+
+  expect(beacon).toContain('text/plain');
 });

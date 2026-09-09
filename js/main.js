@@ -102,18 +102,25 @@ function sendLeadToWebhook(clickLocation) {
   const payload = JSON.stringify({ ...getAttribution(), click_location: clickLocation });
 
   // sendBeacon sobrevive à navegação e não bloqueia a abertura do WhatsApp.
+  //
+  // O corpo é JSON, mas vai declarado como text/plain de propósito:
+  // application/json não é um "simple content type", então o navegador exige um
+  // preflight CORS (OPTIONS) antes de enviar. O webhook do n8n não responde a
+  // esse preflight, e a requisição morria com net::ERR_FAILED sem nunca chegar.
+  // text/plain dispensa o preflight e o n8n recebe o mesmo corpo JSON.
   try {
-    const blob = new Blob([payload], { type: 'application/json' });
+    const blob = new Blob([payload], { type: 'text/plain;charset=UTF-8' });
     if (navigator.sendBeacon(LEAD_WEBHOOK_URL, blob)) return;
   } catch {
     // Cai no fetch abaixo.
   }
 
   try {
+    // Sem cabeçalho Content-Type: declará-lo como application/json reintroduziria
+    // exatamente o preflight que acabamos de evitar.
     fetch(LEAD_WEBHOOK_URL, {
       method: 'POST',
       body: payload,
-      headers: { 'Content-Type': 'application/json' },
       keepalive: true,
       mode: 'no-cors',
     }).catch(() => { });
