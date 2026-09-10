@@ -144,3 +144,48 @@ test('the webhook payload avoids content types that trigger a CORS preflight', (
 
   expect(beacon).toContain('text/plain');
 });
+
+test.describe('traffic_source classification', () => {
+  test('a Google Ads click is classified as google_ads', async ({ page }) => {
+    await page.goto('/?gclid=ABC123');
+    const stored = await page.evaluate(() =>
+      JSON.parse(sessionStorage.getItem('gg_lead_attribution'))
+    );
+    expect(stored.traffic_source).toBe('google_ads');
+  });
+
+  test('gbraid alone (cookieless click) still counts as google_ads', async ({ page }) => {
+    await page.goto('/?gbraid=XYZ789');
+    const stored = await page.evaluate(() =>
+      JSON.parse(sessionStorage.getItem('gg_lead_attribution'))
+    );
+    expect(stored.traffic_source).toBe('google_ads');
+  });
+
+  test('a manually tagged utm_source wins when there is no gclid', async ({ page }) => {
+    await page.goto('/?utm_source=instagram&utm_medium=bio');
+    const stored = await page.evaluate(() =>
+      JSON.parse(sessionStorage.getItem('gg_lead_attribution'))
+    );
+    expect(stored.traffic_source).toBe('instagram');
+  });
+
+  test('a referrer with no gclid or utm falls back to its hostname', async ({ page, context }) => {
+    // Simula chegar clicando num link do site institucional.
+    await context.route('**/*', (route) => route.continue());
+    await page.setExtraHTTPHeaders({ Referer: 'https://giselleguimaraes.com.br/' });
+    await page.goto('/');
+    const stored = await page.evaluate(() =>
+      JSON.parse(sessionStorage.getItem('gg_lead_attribution'))
+    );
+    expect(stored.traffic_source).toBe('giselleguimaraes.com.br');
+  });
+
+  test('no gclid, no utm, no referrer means direct traffic', async ({ page }) => {
+    await page.goto('/');
+    const stored = await page.evaluate(() =>
+      JSON.parse(sessionStorage.getItem('gg_lead_attribution'))
+    );
+    expect(stored.traffic_source).toBe('direct');
+  });
+});

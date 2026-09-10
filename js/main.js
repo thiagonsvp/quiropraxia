@@ -30,6 +30,24 @@ function newRef() {
   return Array.from(bytes, (b) => REF_ALPHABET[b % REF_ALPHABET.length]).join('');
 }
 
+// Classifica a origem em uma palavra, para não obrigar quem lê o CRM a saber
+// de cabeça que "gclid vazio" significa "não veio de anúncio do Google".
+//
+// A página é noindex: não existe tráfego orgânico do Google para ela. "Não
+// pago" aqui é sempre outra coisa — direto, Instagram, o site institucional
+// etc. Por isso a prioridade é: teve clique de anúncio? Foi marcado à mão com
+// utm_source? Senão, de onde veio o clique (referrer)? Senão, é direto.
+function classifyTrafficSource({ gclid, gbraid, wbraid, utm_source, referrer }) {
+  if (gclid || gbraid || wbraid) return 'google_ads';
+  if (utm_source) return utm_source;
+  if (!referrer) return 'direct';
+  try {
+    return new URL(referrer).hostname.replace(/^www\./, '');
+  } catch {
+    return 'unknown';
+  }
+}
+
 // A atribuição é capturada UMA vez, na primeira visita da sessão: o gclid chega
 // só na URL de entrada e some se a pessoa recarregar sem os parâmetros.
 function getAttribution() {
@@ -61,6 +79,7 @@ function getAttribution() {
     landing_page: window.location.href,
     created_at: new Date().toISOString(),
   };
+  attribution.traffic_source = classifyTrafficSource(attribution);
 
   try {
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(attribution));

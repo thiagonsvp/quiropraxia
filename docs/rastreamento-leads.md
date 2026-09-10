@@ -96,6 +96,7 @@ Sem nó extra, também funciona na expressão: `{{ JSON.parse($json.body).ref }}
   "referrer": "",
   "landing_page": "https://quiropraxia.giselleguimaraes.com.br/?gclid=...",
   "created_at": "2026-09-08T23:40:00.000Z",
+  "traffic_source": "google_ads",
   "click_location": "hero"
 }
 ```
@@ -105,6 +106,26 @@ Guarde os três: na hora de importar a conversão, use o que estiver preenchido.
 
 `click_location` diz qual dos 4 botões foi clicado: `header`, `hero`,
 `final_cta` ou `floating_button`.
+
+### `traffic_source`: veio do Google Ads ou não
+
+A página é `noindex` — não existe tráfego orgânico do Google para ela. Então
+"não veio do Ads" nunca significa "veio da busca orgânica"; significa outra
+coisa: acesso direto, um link no Instagram, o botão do site institucional, uma
+mensagem compartilhada.
+
+Em vez de obrigar quem olha o CRM a saber que "`gclid` vazio = não é Ads", o
+site já calcula essa resposta e manda pronta no campo `traffic_source`:
+
+| Valor | Quando aparece |
+|---|---|
+| `google_ads` | `gclid`, `gbraid` ou `wbraid` presentes — clicou num anúncio do Google |
+| *(o texto do `utm_source`)* | alguém marcou o link à mão, ex. `utm_source=instagram` |
+| *(o domínio do referrer)* | chegou por um link em outro site, sem UTM nenhum — ex. `giselleguimaraes.com.br` |
+| `direct` | sem gclid, sem UTM, sem referrer — digitou a URL ou abriu de um app que não envia referrer (comum em apps como Instagram e WhatsApp) |
+
+Filtro simples no CRM/planilha: `traffic_source = google_ads` é tudo que veio
+de anúncio pago; qualquer outro valor é tráfego que não custou clique.
 
 ## Passo 4 — Extrair o código no CRM
 
